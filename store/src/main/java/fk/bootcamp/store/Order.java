@@ -1,6 +1,7 @@
 package fk.bootcamp.store;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,8 +9,8 @@ public class Order {
   private Long id;
   private String address;
   private Date orderDate;
-  private List<OrderItem> items;
-  private BigDecimal price;
+  private List<OrderItem> items = new ArrayList<OrderItem>();
+  private BigDecimal price = new BigDecimal("0");
 
   public Long getId() {
     return id;
@@ -41,5 +42,9 @@ public class Order {
 
   public void setPrice(BigDecimal price) {
     this.price = price;
+  }
+
+  void addItem(OrderItem orderItem) {
+    items.add(orderItem);
   }
 }
