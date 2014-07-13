@@ -1,4 +1,4 @@
-package fk.bootcamp.store;
+package fk.bootcamp.store.orders;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -6,11 +6,10 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import fk.bootcamp.store.orders.ItemNotFoundException;
-import fk.bootcamp.store.orders.Order;
-import fk.bootcamp.store.orders.OrderItem;
-import fk.bootcamp.store.orders.OrderService;
+import fk.bootcamp.store.metrics.StubMetricsService;
 import fk.bootcamp.store.product.ItemNotAvailableException;
+import fk.bootcamp.store.product.StubProductRepository;
+import fk.bootcamp.store.shipping.StubShipmentService;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,7 +19,10 @@ public class OrderServiceTest {
 
   @Before
   public void setup() {
-    orderService = new OrderService();
+    orderService = new OrderService(new StubOrderRepository(),
+                                    new StubProductRepository(),
+                                    new StubMetricsService(),
+                                    new StubShipmentService());
   }
 
   @Test

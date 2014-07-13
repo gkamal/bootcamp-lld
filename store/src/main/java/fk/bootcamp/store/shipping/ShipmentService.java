@@ -2,8 +2,10 @@ package fk.bootcamp.store.shipping;
 
 import fk.bootcamp.store.orders.Order;
 
-public class ShipmentService {
-  public void scheduleShipment(Order order) {
+/**
+ * Created by kamal.govindraj on 13/07/14.
+ */
+public interface ShipmentService {
 
-  }
+  void scheduleShipment(Order order);
 }

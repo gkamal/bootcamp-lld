@@ -9,10 +9,20 @@ import fk.bootcamp.store.shipping.ShipmentService;
 
 public class OrderService {
 
-  private ProductRepository productRepository = new ProductRepository();
-  private OrderRepository orderRepository = new OrderRepository();
-  private MetricsService metricsService = new MetricsService();
-  private ShipmentService shipmentService = new ShipmentService();
+  private ProductRepository productRepository;
+  private OrderRepository orderRepository;
+  private MetricsService metricsService;
+  private ShipmentService shipmentService;
+
+  public OrderService(OrderRepository orderRepository,
+                      ProductRepository productRepository,
+                      MetricsService metricsService,
+                      ShipmentService shipmentService) {
+    this.orderRepository = orderRepository;
+    this.productRepository = productRepository;
+    this.metricsService = metricsService;
+    this.shipmentService = shipmentService;
+  }
 
   public Order processOrder(Order order) {
 

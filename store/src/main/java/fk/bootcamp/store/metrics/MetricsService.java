@@ -4,14 +4,12 @@ import java.math.BigDecimal;
 
 import fk.bootcamp.store.orders.Order;
 
-public class MetricsService {
-  private BigDecimal totalSales = new BigDecimal("0");
+/**
+ * Created by kamal.govindraj on 13/07/14.
+ */
+public interface MetricsService {
 
-  public void updateMetrics(Order order) {
-    totalSales = totalSales.add(order.getPrice());
-  }
+  void updateMetrics(Order order);
 
-  public BigDecimal getTotalSales() {
-    return totalSales;
-  }
+  BigDecimal getTotalSales();
 }
