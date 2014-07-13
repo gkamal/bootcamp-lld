@@ -1,4 +1,4 @@
-package fk.bootcamp.store;
+package fk.bootcamp.store.orders;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class Order {
     this.price = price;
   }
 
-  void addItem(OrderItem orderItem) {
+  public void addItem(OrderItem orderItem) {
     items.add(orderItem);
   }
 }

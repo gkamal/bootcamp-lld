@@ -1,4 +1,4 @@
-package fk.bootcamp.store;
+package fk.bootcamp.store.product;
 
 public class ItemNotAvailableException extends RuntimeException {
 

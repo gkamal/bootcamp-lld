@@ -1,4 +1,4 @@
-package fk.bootcamp.store;
+package fk.bootcamp.store.product;
 
 import java.math.BigDecimal;
 
@@ -37,7 +37,7 @@ public class Product {
     this.availableQuantity = availableQuantity;
   }
 
-  void reserveInventory(int quantity) {
+  public void reserveInventory(int quantity) {
     if (availableQuantity >= quantity) {
       this.availableQuantity = availableQuantity - quantity;
     } else  {

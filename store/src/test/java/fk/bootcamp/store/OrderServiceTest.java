@@ -6,6 +6,12 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import fk.bootcamp.store.orders.ItemNotFoundException;
+import fk.bootcamp.store.orders.Order;
+import fk.bootcamp.store.orders.OrderItem;
+import fk.bootcamp.store.orders.OrderService;
+import fk.bootcamp.store.product.ItemNotAvailableException;
+
 import static org.junit.Assert.assertEquals;
 
 public class OrderServiceTest {

@@ -1,4 +1,4 @@
-package fk.bootcamp.store;
+package fk.bootcamp.store.orders;
 
 public class OrderItem {
   private Long id;
