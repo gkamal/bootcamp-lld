@@ -7,6 +7,7 @@ Null object pattern:
 
 Tell don't ask:
     Move the inventory updation code into the Product class
+    Move computing price for multiple quantity into Product
 
 Single responsibility:
     Extract OrderRepository, ProductRepository classes

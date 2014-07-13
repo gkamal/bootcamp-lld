@@ -33,11 +33,19 @@ public class Product {
     this.price = price;
   }
 
-  public int getAvailableQuantity() {
-    return availableQuantity;
-  }
-
   public void setAvailableQuantity(int availableQuantity) {
     this.availableQuantity = availableQuantity;
+  }
+
+  void reserveInventory(int quantity) {
+    if (availableQuantity >= quantity) {
+      this.availableQuantity = availableQuantity - quantity;
+    } else  {
+      throw new ItemNotAvailableException("Item " + getTitle() + "not available");
+    }
+  }
+
+  public BigDecimal computePriceFor(int quantity) {
+    return getPrice().multiply(new BigDecimal(quantity));
   }
 }

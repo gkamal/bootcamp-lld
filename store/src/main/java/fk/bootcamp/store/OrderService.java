@@ -22,14 +22,10 @@ public class OrderService {
       if (product == null) {
         throw new ItemNotFoundException("Item with id " + item.getProductId() + "not found");
       }
-      if (product.getAvailableQuantity() >= item.getQuantity()) {
-        product.setAvailableQuantity(product.getAvailableQuantity() - item.getQuantity());
-      } else  {
-        throw new ItemNotAvailableException("Item " + product.getTitle() + "not available");
-      }
+      product.reserveInventory(item.getQuantity());
 
       updateProduct(product);
-      total = total.add(product.getPrice().multiply(new BigDecimal(item.getQuantity())));
+      total = total.add(product.computePriceFor(item.getQuantity()));
     }
     order.setPrice(total);
 
