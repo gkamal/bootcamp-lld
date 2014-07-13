@@ -18,3 +18,8 @@ Session 2:
 
 Dependency Injection:
     Introduce interfaces for dependencies, constructor injection to decouple implementation
+
+Session 3:
+
+Observer:
+    Remove dependency on MetricsService and ShipmentService using observer pattern
