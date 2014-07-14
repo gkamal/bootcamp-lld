@@ -14,12 +14,22 @@ Tell don't ask:
 Single responsibility:
     Extract OrderRepository, ProductRepository classes
 
+
 Session 2:
 
 Dependency Injection:
     Introduce interfaces for dependencies, constructor injection to decouple implementation
 
+
 Session 3:
 
 Observer:
     Remove dependency on MetricsService and ShipmentService using observer pattern
+Decorator:
+    Profiling
+
+Session 4:
+    Transactions:
+
+Concurrency:
+    Thread safety
