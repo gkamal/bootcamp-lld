@@ -2,7 +2,9 @@ package fk.bootcamp.store.orders;
 
 import java.util.Date;
 
-public class OrderCreatedEvent {
+import fk.bootcamp.store.common.Event;
+
+public class OrderCreatedEvent extends Event {
   private final Date eventDate = new Date();
   private final Order order;
 

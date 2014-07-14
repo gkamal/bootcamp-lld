@@ -2,26 +2,24 @@ package fk.bootcamp.store.orders;
 
 import java.math.BigDecimal;
 
+import fk.bootcamp.store.common.EventPublisher;
 import fk.bootcamp.store.metrics.MetricsService;
 import fk.bootcamp.store.product.Product;
 import fk.bootcamp.store.product.ProductRepository;
 import fk.bootcamp.store.shipping.ShipmentService;
 
-public class OrderService {
+public class OrderService extends EventPublisher {
 
   private ProductRepository productRepository;
   private OrderRepository orderRepository;
   private MetricsService metricsService;
-  private ShipmentService shipmentService;
 
   public OrderService(OrderRepository orderRepository,
                       ProductRepository productRepository,
-                      MetricsService metricsService,
-                      ShipmentService shipmentService) {
+                      MetricsService metricsService) {
     this.orderRepository = orderRepository;
     this.productRepository = productRepository;
     this.metricsService = metricsService;
-    this.shipmentService = shipmentService;
   }
 
   public Order processOrder(Order order) {
@@ -41,9 +39,8 @@ public class OrderService {
     order.setPrice(total);
 
     orderRepository.saveOrder(order);
-    metricsService.updateMetrics(order);
 
-    shipmentService.scheduleShipment(order);
+    publishEvent(new OrderCreatedEvent(order));
 
     return order;
   }

@@ -6,9 +6,11 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import fk.bootcamp.store.metrics.MetricsOrderEventListener;
 import fk.bootcamp.store.metrics.StubMetricsService;
 import fk.bootcamp.store.product.ItemNotAvailableException;
 import fk.bootcamp.store.product.StubProductRepository;
+import fk.bootcamp.store.shipping.ShipmentOrderEventListener;
 import fk.bootcamp.store.shipping.StubShipmentService;
 
 import static org.junit.Assert.assertEquals;
@@ -19,10 +21,14 @@ public class OrderServiceTest {
 
   @Before
   public void setup() {
+    StubShipmentService shipmentService = new StubShipmentService();
+    StubMetricsService metricsService = new StubMetricsService();
     orderService = new OrderService(new StubOrderRepository(),
                                     new StubProductRepository(),
-                                    new StubMetricsService(),
-                                    new StubShipmentService());
+                                    metricsService);
+
+    orderService.registerListener(new MetricsOrderEventListener(metricsService));
+    orderService.registerListener(new ShipmentOrderEventListener(shipmentService));
   }
 
   @Test
