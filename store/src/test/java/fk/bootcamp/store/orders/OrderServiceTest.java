@@ -9,6 +9,7 @@ import java.util.Date;
 import fk.bootcamp.store.metrics.MetricsOrderEventListener;
 import fk.bootcamp.store.metrics.StubMetricsService;
 import fk.bootcamp.store.product.ItemNotAvailableException;
+import fk.bootcamp.store.product.ProductRepositoryDecorator;
 import fk.bootcamp.store.product.StubProductRepository;
 import fk.bootcamp.store.shipping.ShipmentOrderEventListener;
 import fk.bootcamp.store.shipping.StubShipmentService;
@@ -24,7 +25,7 @@ public class OrderServiceTest {
     StubShipmentService shipmentService = new StubShipmentService();
     StubMetricsService metricsService = new StubMetricsService();
     orderService = new OrderService(new StubOrderRepository(),
-                                    new StubProductRepository(),
+                                    new ProductRepositoryDecorator(new StubProductRepository()),
                                     metricsService);
 
     orderService.registerListener(new MetricsOrderEventListener(metricsService));
