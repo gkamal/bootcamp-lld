@@ -1,7 +1,10 @@
 package fk.bootcamp.store.orders;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.SQLException;
 
+import fk.bootcamp.store.common.ConnectionUtil;
 import fk.bootcamp.store.common.EventPublisher;
 import fk.bootcamp.store.metrics.MetricsService;
 import fk.bootcamp.store.product.Product;
@@ -23,26 +26,56 @@ public class OrderService extends EventPublisher {
   }
 
   public Order processOrder(Order order) {
+    startTransaction();
+    try {
+      BigDecimal total = new BigDecimal("0");
 
-    BigDecimal total = new BigDecimal("0");
+      for (OrderItem item : order.getItems()) {
+        Product product = productRepository.fetchProduct(item.getProductId());
+        if (product == null) {
+          throw new ItemNotFoundException("Item with id " + item.getProductId() + "not found");
+        }
+        product.reserveInventory(item.getQuantity());
 
-    for (OrderItem item : order.getItems()) {
-      Product product = productRepository.fetchProduct(item.getProductId());
-      if (product == null) {
-        throw new ItemNotFoundException("Item with id " + item.getProductId() + "not found");
+        productRepository.updateProduct(product);
+        total = total.add(product.computePriceFor(item.getQuantity()));
       }
-      product.reserveInventory(item.getQuantity());
+      order.setPrice(total);
 
-      productRepository.updateProduct(product);
-      total = total.add(product.computePriceFor(item.getQuantity()));
+      orderRepository.saveOrder(order);
+
+      publishEvent(new OrderCreatedEvent(order));
+      commit();
+    } catch (RuntimeException e) {
+      rollback();
+      throw e;
     }
-    order.setPrice(total);
-
-    orderRepository.saveOrder(order);
-
-    publishEvent(new OrderCreatedEvent(order));
 
     return order;
+  }
+
+  private void rollback() {
+    try {
+      ConnectionUtil.get().rollback();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void commit() {
+    try {
+      ConnectionUtil.get().commit();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void startTransaction() {
+    try {
+      ConnectionUtil.get().setAutoCommit(false);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public BigDecimal getTotalSales() {
